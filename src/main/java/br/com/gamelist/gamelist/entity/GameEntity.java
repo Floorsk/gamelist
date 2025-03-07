@@ -4,25 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@NoArgsConstructor
 @Entity
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class GameEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Boolean reserved;
 
-    public GameEntity(String name, boolean reserved) {
+    private String name;
+    private Boolean beated;
+
+    public GameEntity(String name, Boolean beated) {
         this.name = name;
-        this.reserved = reserved;
+        this.beated = beated;
     }
 }
