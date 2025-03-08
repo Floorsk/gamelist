@@ -1,12 +1,11 @@
 package br.com.gamelist.gamelist.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.Date;
 
 @NoArgsConstructor
 @Entity
@@ -19,9 +18,18 @@ public class GameEntity {
 
     private String name;
     private Boolean beated;
+    private Date startDate;
+    private Date endDate;
 
-    public GameEntity(String name, Boolean beated) {
+    @PrePersist
+    protected void onCreate() {
+        startDate = new Date();
+    }
+
+
+    public GameEntity(String name, Boolean beated, Date endDate) {
         this.name = name;
         this.beated = beated;
+        this.endDate = endDate;
     }
 }
