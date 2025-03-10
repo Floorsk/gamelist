@@ -1,14 +1,20 @@
 package br.com.gamelist.gamelist.controller;
 
 import br.com.gamelist.gamelist.dto.GameDTO;
+import br.com.gamelist.gamelist.dto.GameDetailsDTO;
 import br.com.gamelist.gamelist.dto.GameFormDTO;
+import br.com.gamelist.gamelist.dto.GameUpdateDTO;
 import br.com.gamelist.gamelist.entity.GameEntity;
 import br.com.gamelist.gamelist.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/game")
@@ -26,9 +32,15 @@ public class GameController {
 
     // Get game by id
     @ResponseBody
-    @RequestMapping("/gameById")
-    public Object getById (@RequestParam long id) {
-        return GameRepository.findById(id);
+    @GetMapping("/gameById")
+    public Object getById (@RequestParam Long id) {
+        final Optional<GameEntity> game = GameRepository.findById(id);
+
+        if (game.isPresent()) {
+            return GameRepository.findById(id);
+        }
+
+        return new ResponseEntity("The game aint in the database", HttpStatus.OK);
     }
 
     // Create game
@@ -43,15 +55,30 @@ public class GameController {
     // Update game
     // obs: if the id already exists in the database, the jpa just updates that current object.
     @Transactional
-    @PutMapping
-    public void update (@RequestBody GameFormDTO form) {
-        create(form);
+    @PutMapping("/{id}")
+    public GameDetailsDTO update (@PathVariable Long id,  @RequestBody GameUpdateDTO form) {
+        final Optional<GameEntity> optGame = GameRepository.findById(id);
+
+        if (optGame.isPresent()) {
+            GameEntity game = optGame.get();
+            form.update(game);
+            GameRepository.save(game);
+            return new GameDetailsDTO(game);
+        }
+
+        return null;
     }
 
-    // Delete GameS
+    // Delete Game
     @Transactional
     @DeleteMapping
-    public void delete (@RequestParam long id) {
-        GameRepository.deleteById(id);
+    public Object delete (@RequestParam long id) {
+        final Optional<GameEntity> optGame = GameRepository.findById(id);
+
+        if (optGame.isPresent()) {
+            GameRepository.deleteById(id);
+        }
+
+        return new ResponseEntity("The game was not found at the database", HttpStatus.OK);
     }
 }

@@ -3,22 +3,21 @@ package br.com.gamelist.gamelist.dto;
 import br.com.gamelist.gamelist.entity.GameEntity;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Date;
 
 @Getter
-public class GameDTO {
+public class GameDetailsDTO {
     private Long id;
     private String name;
     private Boolean beated;
+    private Date startDate;
+    private Date endDate;
 
-    public GameDTO(GameEntity game) {
+    public GameDetailsDTO(GameEntity game) {
         id = game.getId();
         name = game.getName();
         beated = game.getBeated();
-    }
-
-    public static List<GameDTO> converter(List<GameEntity> games) {
-        return games.stream().map(GameDTO::new).collect(Collectors.toList());
+        startDate = game.getStartDate();
+        endDate = game.getEndDate();
     }
 }
