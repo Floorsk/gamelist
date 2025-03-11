@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/game")
 public class GameController {

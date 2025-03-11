@@ -26,11 +26,11 @@ public class GameEntity {
     @PrePersist
     protected void onCreate() {
         startDate = new Date();
+        beated = false;
+        endDate = null;
     }
 
-    public GameEntity(String name, Boolean beated, Date endDate) {
+    public GameEntity(String name) {
         this.name = name;
-        this.beated = beated;
-        this.endDate = endDate;
     }
 }
