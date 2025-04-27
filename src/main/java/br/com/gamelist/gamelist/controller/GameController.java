@@ -20,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/game")
 public class GameController {
-
     @Autowired
     private GameRepository GameRepository;
 
@@ -41,7 +40,7 @@ public class GameController {
             return GameRepository.findById(id);
         }
 
-        return new ResponseEntity("The game aint in the database", HttpStatus.OK);
+        return new ResponseEntity<>("The game aint in the database", HttpStatus.OK);
     }
 
     // Create game
@@ -80,6 +79,6 @@ public class GameController {
             GameRepository.deleteById(id);
         }
 
-        return new ResponseEntity("The game was not found at the database", HttpStatus.OK);
+        return new ResponseEntity<>("The game was not found at the database", HttpStatus.OK);
     }
 }

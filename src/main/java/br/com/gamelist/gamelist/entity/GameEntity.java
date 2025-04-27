@@ -1,10 +1,7 @@
 package br.com.gamelist.gamelist.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -26,11 +23,11 @@ public class GameEntity {
     @PrePersist
     protected void onCreate() {
         startDate = new Date();
-        beated = false;
+        beated =  false;
         endDate = null;
     }
 
-    public GameEntity(String name) {
+    public GameEntity(@NonNull String name) {
         this.name = name;
     }
 }
